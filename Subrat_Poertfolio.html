@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subrata Patra · Boomi Integration Architect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-gradient: linear-gradient(90deg, #ff5e62, #ff9966, #c471ed, #12c2e9);
+            --border-color: #333333;
+            --card-bg: #111111;
+            --accent-orange: #ff9966;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand-logo {
+            font-family: 'Anton', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- Navbar --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 60px;
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff9966;
+        }
+
+        /* --- Global Button --- */
+        .btn-gradient {
+            background: var(--accent-gradient);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        .btn-gradient:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 9rem;
+            line-height: 0.9;
+            z-index: 2;
+            background: linear-gradient(135deg, #fff, #ff9966);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0 60px;
+            z-index: 1;
+        }
+
+        .hero-desc {
+            max-width: 250px;
+            text-align: left;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            text-transform: uppercase;
+        }
+
+        /* Water drop avatar with image placeholder */
+        .water-drop {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border-radius: 60% 40% 50% 50% / 45% 50% 50% 55%;
+            box-shadow: 0 30px 40px -15px rgba(255,153,102,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+            animation: floatSoft 5s infinite ease-in-out;
+            z-index: 3;
+            margin-top: -50px;
+            overflow: hidden;
+        }
+        .water-drop img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+        @keyframes floatSoft {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+
+        /* --- Section Defaults --- */
+        section {
+            padding: 120px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 6rem;
+            text-align: center;
+            margin-bottom: 60px;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+            color: transparent;
+            transition: color 0.3s;
+        }
+       
+        .section-title:hover {
+            color: var(--text-main);
+        }
+
+        /* --- About Section --- */
+        .about-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ddd;
+        }
+
+        .about-btn-wrapper {
+            text-align: center;
+        }
+
+        /* --- Skills Section --- */
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .service-item {
+            display: flex;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+            align-items: flex-start;
+        }
+
+        .service-item h3 {
+            font-size: 2rem;
+            flex: 1;
+            display: flex;
+            gap: 20px;
+        }
+       
+        .service-item h3 span {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        .service-item p {
+            flex: 1;
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 500px;
+        }
+
+        /* --- Skills Rating Section (Single White Box) --- */
+        .rating-single-box {
+            background: #ffffff;
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.2);
+        }
+        .rating-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .rating-row:last-child {
+            border-bottom: none;
+        }
+        .rating-skill-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1e1e2a;
+            width: 30%;
+            min-width: 150px;
+        }
+        .rating-stars {
+            width: 30%;
+            font-size: 1.1rem;
+            color: #f5b042;
+            letter-spacing: 2px;
+        }
+        .rating-reviewer {
+            width: 35%;
+            font-size: 0.85rem;
+            color: #555;
+            text-align: right;
+        }
+        .rating-reviewer span {
+            font-weight: 600;
+            color: #ff9966;
+        }
+        @media (max-width: 768px) {
+            .rating-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 1rem 0;
+            }
+            .rating-skill-name, .rating-stars, .rating-reviewer {
+                width: 100%;
+                text-align: left;
+            }
+            .rating-reviewer {
+                text-align: left;
+            }
+        }
+
+        /* --- Projects Section (Pile-up style) --- */
+        .projects-container {
+            margin-top: 60px;
+        }
+        .projects-stack {
+            display: flex;
+            flex-direction: column;
+        }
+        .stack-card {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border-left: 4px solid #ff9966;
+            overflow: hidden;
+            margin-bottom: -1.2rem;
+            position: relative;
+            z-index: 1;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .stack-card.active {
+            margin-bottom: 1rem;
+            border-left-width: 8px;
+            background: #1a1a1a;
+            box-shadow: 0 20px 30px -12px rgba(255,153,102,0.2);
+            z-index: 10;
+        }
+        .card-content {
+            padding: 1.5rem 2rem;
+        }
+        .project-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+        }
+        .project-info h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1px;
+        }
+        .project-duration {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #ff9966;
+            background: rgba(255,153,102,0.15);
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            white-space: nowrap;
+        }
+		.project-Company {
+            font-size: 1.0rem;
+            font-weight: 400;
+            margin: 0;
+			text-align : right;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1px;
+        }
+		.project-Role{
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #ff9966;
+            background: rgba(255,153,102,0.15);
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            white-space: nowrap;
+        }
+        .project-short {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .project-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            font-size: 0.9rem;
+            color: #bbb;
+            border-top: 1px solid rgba(255,153,102,0.2);
+            margin-top: 0;
+            padding-top: 0;
+        }
+        .stack-card.active .project-details {
+            max-height: 300px;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+        }
+        .stack-card:not(.active) .project-short,
+        .stack-card:not(.active) .project-details {
+            display: none;
+        }
+        .stack-card:not(.active) .card-content {
+            padding: 0.8rem 2rem;
+        }
+        .stack-card:not(.active):hover {
+            transform: translateX(8px);
+        }
+
+        /* --- Testimonials Section --- */
+        .testimonials-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .testimonial-card {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            width: 360px;
+            flex: 0 0 auto;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff9966;
+        }
+        .testimonial-card i {
+            font-size: 2rem;
+            color: #ff9966;
+            opacity: 0.7;
+        }
+        .testimonial-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #ddd;
+            font-style: italic;
+        }
+        .client-name {
+            font-weight: 600;
+            color: #ff9966;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Certifications Section --- */
+        .certs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .static-badge {
+            flex: 1;
+            min-width: 220px;
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: 0.2s;
+        }
+        .static-badge:hover {
+            border-color: #ff9966;
+        }
+        .static-badge .badge-img {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: #2a2a2a;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .static-badge .badge-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .static-badge h3 {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+        .static-badge p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .ticker-rows {
+            flex: 2;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .ticker-wrapper {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(17,17,17,0.8);
+            backdrop-filter: blur(4px);
+            padding: 0.8rem 0;
+            border-radius: 60px;
+            border: 1px solid var(--border-color);
+        }
+        .ticker-track {
+            display: flex;
+            animation: scrollTicker 28s linear infinite;
+            width: fit-content;
+        }
+        .ticker-item {
+            flex-shrink: 0;
+            margin: 0 0.8rem;
+            background: #1e1e1e;
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border: 1px solid #333;
+            transition: 0.2s;
+        }
+        .ticker-item:hover {
+            border-color: #ff9966;
+        }
+        .ticker-item .cert-img {
+            width: 40px;
+            height: 40px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .ticker-item .cert-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .ticker-item span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #ddd;
+            white-space: nowrap;
+        }
+        @keyframes scrollTicker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-wrapper:hover .ticker-track {
+            animation-play-state: paused;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 80px 60px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            scroll-margin-top: 80px;
+        }
+        .footer-logo {
+            font-size: 3rem;
+            font-family: 'Anton', sans-serif;
+            line-height: 1;
+        }
+        .footer-links {
+            display: flex;
+            gap: 80px;
+            flex-wrap: wrap;
+        }
+        .footer-col h4 {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .footer-col p, .footer-col a {
+            display: block;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1200px) {
+            .hero h1 { font-size: 7rem; }
+            .water-drop { width: 280px; height: 280px; }
+            .hero-content { padding: 0 40px; }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 5.5rem; }
+            .hero-content { flex-direction: column; gap: 2rem; position: relative; top: auto; transform: none; padding: 0 20px; margin-top: 80px; text-align: center; }
+            .hero-desc { max-width: 100%; text-align: center; margin-bottom: 1rem; }
+            .water-drop { width: 220px; height: 220px; margin-top: 0; }
+            .section-title { font-size: 4rem; }
+            .service-item { flex-direction: column; gap: 1rem; }
+            .service-item h3 { font-size: 1.6rem; }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 16px 24px; }
+            .nav-links { gap: 20px; }
+            .brand-logo { font-size: 14px; }
+            section { padding: 80px 24px; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero-desc { font-size: 10px; }
+            .water-drop { width: 160px; height: 160px; }
+            .section-title { font-size: 2.8rem; margin-bottom: 40px; }
+            .about-text { font-size: 1rem; }
+            .service-item h3 { font-size: 1.3rem; }
+            .service-item h3 span { font-size: 1rem; }
+            .service-item p { font-size: 0.9rem; }
+            .project-header { flex-direction: column; align-items: flex-start; }
+            .project-info h3 { font-size: 1.3rem; }
+            .card-content { padding: 1rem; }
+            .testimonial-card { width: 100%; max-width: 320px; }
+            .static-badge { min-width: 100%; }
+            .ticker-rows { min-width: 100%; }
+            .ticker-item span { font-size: 0.8rem; white-space: nowrap; }
+            .rating-single-box { padding: 1rem; }
+            footer { padding: 40px 24px; }
+            .footer-logo { font-size: 2rem; }
+            .footer-links { gap: 40px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-links">
+            <a href="#about">ABOUT</a>
+            <a href="#skills">EXPERTISE</a>
+            <a href="#projects">PROJECTS</a>
+            <a href="#ratings">RATINGS</a>
+        </div>
+        <div class="brand-logo">SUBRATA PATRA</div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-desc">
+                Senior Software Engineer | Boomi Integration Specialist. Enterprise middleware architect transforming complex integrations into seamless digital experiences.
+            </div>
+            <a href="#ratings" class="btn-gradient">VIEW SKILLS</a>
+        </div>
+        <h1>HI, I'M SUBRATA</h1>
+        <div class="water-drop">
+            <img src="https://picsum.photos/id/100/400/400" alt="Profile">
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">ABOUT ME</h2>
+        <p class="about-text">
+            Senior Software Engineer with strong expertise in Boomi integration, enterprise middleware architecture, and large-scale system integrations. Proven track record of delivering complex integration projects across Coupa, Oracle, IBS, OBN, and ESG platforms. Adept at canonical data models, troubleshooting production issues, and collaborating with global teams. Known for reliability, ownership, and clear stakeholder communication.
+        </p>
+        <div class="about-btn-wrapper">
+            <a href="#footer-contact" class="btn-gradient">CONTACT ME</a>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">EXPERTISE</h2>
+        <div class="services-list">
+            <div class="service-item">
+                <h3><span>01</span> BOOMI INTEGRATION</h3>
+                <p>Boomi AtomSphere (On‑Prem & Cloud), API-led connectivity, canonical data models, and high-volume transaction processing.</p>
+            </div>
+            <div class="service-item">
+                <h3><span>02</span> ENTERPRISE SYSTEMS</h3>
+                <p>Coupa, Oracle EBS/DB, IBS, OBN – end-to-end integration, data reconciliation, and real-time sync.</p>
+            </div>
+            <div class="service-item">
+                <h3><span>03</span> MIDDLEWARE ARCHITECTURE</h3>
+                <p>HLD/LLD design, microservices patterns, reprocessing frameworks, and performance optimization.</p>
+            </div>
+            <div class="service-item">
+                <h3><span>04</span> SCRIPTING & AUTOMATION</h3>
+                <p>Groovy, JavaScript, SQL (Oracle), Python automation, and error handling strategies.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS RATING SECTION - SINGLE WHITE BOX -->
+    <section id="ratings">
+        <h2 class="section-title">SKILLS</h2>
+        <div class="rating-single-box">
+            <div class="rating-row">
+                <div class="rating-skill-name">Boomi Integration</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Lead Architect, LTIMindtree</span></div>
+            </div>
+            <div class="rating-row">
+                <div class="rating-skill-name">Communication</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Manager,Stakeholder,Peer</span></div>
+            </div>
+            <div class="rating-row">
+                <div class="rating-skill-name">Integration Design</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Director, Architect, Manager</span></div>
+            </div>
+            <div class="rating-row">
+                <div class="rating-skill-name">Problem Solving</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Client Manager, Project Manager</span></div>
+            </div>
+			<div class="rating-row">
+                <div class="rating-skill-name">Boomi Profiles(JSON,XML,FF,DB)</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Director, Architect, Manager</span></div>
+            </div>
+			<div class="rating-row">
+                <div class="rating-skill-name">Boomi Connections</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Director, Architect, Manager</span></div>
+            </div>
+			<div class="rating-row">
+                <div class="rating-skill-name">AI Agents</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Director, Architect, Manager</span></div>
+            </div>
+			<div class="rating-row">
+                <div class="rating-skill-name">Boomi Automation</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Director, Architect, Manager</span></div>
+            </div>
+			<div class="rating-row">
+                <div class="rating-skill-name">Workato Integration</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Director, Architect, Manager</span></div>
+            </div>
+			<div class="rating-row">
+                <div class="rating-skill-name">Team Lead</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Director, Architect, Manager</span></div>
+            </div>
+			<div class="rating-row">
+                <div class="rating-skill-name">SQL</div>
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+                </div>
+                <div class="rating-reviewer">Rated by <span>Director, Architect, Manager</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">PROJECTS</h2>
+        <div class="projects-container">
+            <div class="projects-stack" id="projectsStack">
+                <div class="stack-card" data-index="0">
+                    <div class="card-content">
+                        <div class="project-header">
+                            <div class="project-info"><h3>ESG Ecommerce</h3></div>
+							<div class="project-Role">Boomi Lead</div>
+							<div class="project-Company">LTM (LTIMindtree)</div>
+                            <div class="project-duration">📅 2025 July – Present</div>
+                        </div>
+                        <div class="project-short">eCommerce, invoice & PO data flows · QA → PROD migration · data reconciliation</div>
+                        <div class="project-details">
+                            <p>Integrated eCommerce, invoice & PO data flows across enterprise systems. Led QA → PROD migration planning and execution. Ensured data consistency and reconciliation between source and target platforms. Reduced manual effort by 30% through automation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="stack-card" data-index="1">
+                    <div class="card-content">
+                        <div class="project-header">
+                            <div class="project-info"><h3>Invoice Automation : Outlook-AWS</h3></div>
+							<div class="project-Role">Boomi Lead</div>
+							<div class="project-Company">LTM (LTIMindtree)</div>
+                            <div class="project-duration">📅 2025 May – 2025 July</div>
+                        </div>
+                        <div class="project-short">High-impact integration · recognized during performance appraisal · Oracle Practice leadership</div>
+                        <div class="project-details">
+                            <p>High-impact project recognized during performance appraisal. Worked under Oracle Practice leadership while representing Boomi expertise. Earned positive feedback for technical ownership, delivery quality, and collaboration across global teams.</p>
+                        </div>
+                    </div>
+                </div>
+				<div class="stack-card" data-index="2">
+                    <div class="card-content">
+                        <div class="project-header">
+                            <div class="project-info"><h3>OSM-Trackunit</h3></div>
+							<div class="project-Role">Boomi Lead</div>
+							<div class="project-Company">LTM (LTIMindtree)</div>
+                            <div class="project-duration">📅 2024 Aug – 2025 May</div>
+                        </div>
+                        <div class="project-short">eCommerce, invoice & PO data flows · QA → PROD migration · data reconciliation</div>
+                        <div class="project-details">
+                            <p>Integrated eCommerce, invoice & PO data flows across enterprise systems. Led QA → PROD migration planning and execution. Ensured data consistency and reconciliation between source and target platforms. Reduced manual effort by 30% through automation.</p>
+                        </div>
+                    </div>
+                </div>
+				<div class="stack-card" data-index="3">
+                    <div class="card-content">
+                        <div class="project-header">
+                            <div class="project-info"><h3>Toyota Motors, Australia</h3></div>
+							<div class="project-Role">Senior Boomi Developer</div>
+							<div class="project-Company">Infosys</div>
+                            <div class="project-duration">📅 2023 – 2024</div>
+                        </div>
+                        <div class="project-short">eCommerce, invoice & PO data flows · QA → PROD migration · data reconciliation</div>
+                        <div class="project-details">
+                            <p>Integrated eCommerce, invoice & PO data flows across enterprise systems. Led QA → PROD migration planning and execution. Ensured data consistency and reconciliation between source and target platforms. Reduced manual effort by 30% through automation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="stack-card" data-index="4">
+                    <div class="card-content">
+                        <div class="project-header">
+                            <div class="project-info"><h3>Graphical Packaging International(GPI) </h3></div>
+							<div class="project-Role">Junior Boomi Developer</div>
+							<div class="project-Role">Boomi Admin</div>
+							<div class="project-Company">Capgemini</div>
+                            <div class="project-duration">📅 2022 – 2023</div>
+                        </div>
+                        <div class="project-short">Structured error handling · CSV/PDF validation · reduced manual intervention by 35%</div>
+                        <div class="project-details">
+                            <p>Designed structured reprocessing solution for failed invoices. Standardized naming conventions & audit‑friendly CSV/PDF handling. Reduced manual intervention by 35% and improved operational efficiency with robust error routing.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="stack-card" data-index="5">
+                    <div class="card-content">
+                        <div class="project-header">
+                            <div class="project-info"><h3>T. Marzetti</h3></div>
+							<div class="project-Role">Junior Boomi Developer</div>
+							<div class="project-Company">Capgemini</div>
+                            <div class="project-duration">📅 2021 – 2022</div>
+                        </div>
+                        <div class="project-short">Real-time canonical data models · high-volume transaction monitoring · Boomi on‑prem Atom</div>
+                        <div class="project-details">
+                            <p>Real-time canonical data models · high-volume transaction monitoring · Boomi on‑prem Atom management. Delivered robust error handling and reprocessing mechanisms, ensuring 99.9% data accuracy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <h2 class="section-title" style="color: white; -webkit-text-stroke: 0;">CLIENT FEEDBACK</h2>
+        <div class="testimonials-row" id="testimonialsRow"></div>
+    </section>
+
+    <section id="certifications">
+        <h2 class="section-title">CERTIFICATIONS</h2>
+        <div class="certs-grid">
+            <div class="static-badge">
+                <div class="badge-img">
+                    <img src="https://sapinsider.org/wp-content/uploads/2023/08/5f4c132d6f746ffb370839ff_Boomi-Logo-B-9X5-1536x853.png" alt="Boomi Certificate">
+                </div>
+                <h3>Boomi Ambassador : Solution Architect</h3>
+                <p>Certified Integration Specialist</p>
+            </div>
+            <div class="static-badge">
+                <div class="badge-img">
+                    <img src="https://picsum.photos/id/26/80/80" alt="Oracle Certificate">
+                </div>
+                <h3>Oracle Integration Foundations</h3>
+                <p>Certified Implementation Expert</p>
+            </div>
+            <div class="ticker-rows">
+                <div class="ticker-wrapper"><div class="ticker-track" id="certTicker1"></div></div>
+                <div class="ticker-wrapper"><div class="ticker-track" id="certTicker2"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer-contact">
+        <div class="footer-logo">SUBRATA<br>PATRA</div>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>SOCIAL</h4>
+                <a href="#">Phone</a>				
+                <a href="https://www.linkedin.com/in/subrat-patra-18282b163">LinkedIn</a>
+                <a href="#">GitHub</a>
+                <a href="#">Twitter</a>
+            </div>
+            <div class="footer-col">
+                <h4>CONTACT</h4>
+                <p>+91 7978719160</p>
+				<p>https://www.linkedin.com/in/subrat-patra-18282b163</p>
+                <p>Coming Soon</p>
+                <p>Coming Soon</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== SEQUENTIAL PROJECT ACTIVATION ON SCROLL & CLICK ==========
+        const projectCards = Array.from(document.querySelectorAll('.stack-card'));
+        let activeIndex = 0;
+        let isManualClick = false;
+
+        function setActiveCard(index) {
+            if (index === activeIndex) return;
+            activeIndex = index;
+            projectCards.forEach((card, idx) => {
+                if (idx === activeIndex) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        // Scroll-based activation
+        function updateActiveProject() {
+            if (isManualClick) return; // temporarily disable scroll if clicked? Instead we allow both, but we'll update activeIndex.
+            const viewportCenter = window.scrollY + window.innerHeight / 2;
+            let closestIndex = 0;
+            let closestDistance = Infinity;
+
+            projectCards.forEach((card, idx) => {
+                const rect = card.getBoundingClientRect();
+                const cardCenter = rect.top + rect.height / 2 + window.scrollY;
+                const distance = Math.abs(cardCenter - viewportCenter);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestIndex = idx;
+                }
+            });
+
+            if (closestIndex !== activeIndex) {
+                activeIndex = closestIndex;
+                projectCards.forEach((card, idx) => {
+                    if (idx === activeIndex) {
+                        card.classList.add('active');
+                    } else {
+                        card.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Click/tap handler
+        projectCards.forEach((card, idx) => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Set this card as active
+                setActiveCard(idx);
+                // Optional: small delay to let scroll not override immediately
+                isManualClick = true;
+                setTimeout(() => { isManualClick = false; }, 100);
+            });
+        });
+
+        if (projectCards.length) {
+            setActiveCard(0);
+            window.addEventListener('scroll', updateActiveProject);
+            window.addEventListener('resize', updateActiveProject);
+            updateActiveProject();
+        }
+
+        // ========== TESTIMONIALS ==========
+        const testimonials = [
+            { text: "Subrata’s deep Boomi expertise and ownership during critical go-live were exceptional. Absolute reliability.", name: "Director, Oracle Practice" },
+            { text: "One of the most thorough integration specialists. His canonical data models made our Coupa–Oracle migration seamless.", name: "Senior Program Manager, ESG" },
+            { text: "During production crisis, identified root cause within hours and implemented reprocessing strategy praised by stakeholders.", name: "Lead Architect, LTIMindtree" },
+            { text: "The Boomi SME we can always count on – delivery quality, collaboration, and proactive problem solving.", name: "Client Program Lead, Terex" }
+        ];
+
+        const testimonialsRow = document.getElementById('testimonialsRow');
+        if (testimonialsRow) {
+            testimonials.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'testimonial-card';
+                card.innerHTML = `
+                    <i class="fas fa-quote-left"></i>
+                    <div class="testimonial-text">“${t.text}”</div>
+                    <div class="client-name">— ${t.name}</div>
+                `;
+                testimonialsRow.appendChild(card);
+            });
+        }
+
+        // ========== RUNNING CERTIFICATES WITH IMAGE PLACEHOLDERS ==========
+        const certsRow1 = [
+            { name: "Excellence in Integration Delivery", img: "https://picsum.photos/id/41/40/40" },
+            { name: "Middleware Architecture Expert", img: "https://picsum.photos/id/42/40/40" },
+            { name: "Certified Boomi Architect", img: "https://picsum.photos/id/43/40/40" },
+            { name: "API Design Specialist", img: "https://picsum.photos/id/44/40/40" }
+        ];
+        const certsRow2 = [
+            { name: "TOGAF 9 Certified", img: "https://picsum.photos/id/45/40/40" },
+            { name: "AWS Cloud Practitioner", img: "https://picsum.photos/id/46/40/40" },
+            { name: "Scrum Master (PSM I)", img: "https://picsum.photos/id/47/40/40" },
+            { name: "Data Engineering Essentials", img: "https://picsum.photos/id/48/40/40" }
+        ];
+
+        function buildCertTicker(trackElement, items) {
+            let content = '';
+            const loopCount = 3;
+            for (let i = 0; i < loopCount; i++) {
+                items.forEach(item => {
+                    content += `
+                        <div class="ticker-item">
+                            <div class="cert-img"><img src="${item.img}" alt="${item.name}"></div>
+                            <span>${item.name}</span>
+                        </div>
+                    `;
+                });
+            }
+            trackElement.innerHTML = content;
+            const duration = Math.max(22, trackElement.scrollWidth / 45);
+            trackElement.style.animationDuration = `${duration}s`;
+        }
+
+        const certTicker1 = document.getElementById('certTicker1');
+        const certTicker2 = document.getElementById('certTicker2');
+        if (certTicker1) buildCertTicker(certTicker1, certsRow1);
+        if (certTicker2) buildCertTicker(certTicker2, certsRow2);
+    </script>
+</body>
+</html>
